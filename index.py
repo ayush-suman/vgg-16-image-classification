@@ -54,9 +54,11 @@ model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy
 
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
-checkpoint = ModelCheckpoint("vgg16_1.h5", monitor='val_accuracy', verbose=1, save_best_only=True, save_weights_only=False, mode='auto', save_freq="epoch")
-early = EarlyStopping(monitor='val_accuracy', min_delta=0, patience=20, verbose=1, mode='auto')
+checkpoint = ModelCheckpoint("vgg16.h5", monitor='val_accuracy', verbose=1, save_best_only=True, save_weights_only=False, mode='auto', save_freq="epoch")
+early = EarlyStopping(monitor='val_accuracy', min_delta=0, patience=10, verbose=1, mode='auto')
 hist = model.fit(traindata, steps_per_epoch=100, validation_data=testdata, validation_steps=10, epochs=100, callbacks=[checkpoint, early])
+
+model.save('vgg16.keras')
 
 import matplotlib.pyplot as plt
 plt.plot(hist.history["accuracy"])
